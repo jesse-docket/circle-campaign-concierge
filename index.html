@@ -179,37 +179,55 @@
     <div><strong style="color:var(--ink)">Circle × Docket</strong> — personalized campaign landing-page concept</div>
     <div>Evaluation example built by Docket for the Circle team</div>
   </div>
-  <details class="demo-tools">
-    <summary>Demo link builder — mint a personalized link for anyone</summary>
+  <details class="demo-tools" open>
+    <summary>Build a campaign link — describe the visitor in plain language</summary>
     <div class="tools-grid">
-      <div><label>Visitor name</label><input id="b_visitor" placeholder="Santiago"></div>
-      <div><label>Visitor type</label>
-        <select id="b_type">
-          <option value="campaign">campaign</option><option value="promo">promo</option>
-          <option value="influencer">influencer</option><option value="trial_active">trial_active</option>
-          <option value="trial_near_complete">trial_near_complete</option><option value="trial_expired">trial_expired</option>
-          <option value="customer">customer</option>
+      <div><label>Who's visiting?</label><input id="b_visitor" placeholder="First name — e.g. Santiago"></div>
+      <div><label>Their situation</label>
+        <select id="b_situation">
+          <option value="campaign">Clicked a campaign email — new to Circle</option>
+          <option value="near">One step from finishing their trial</option>
+          <option value="active">In an active trial — a few days in</option>
+          <option value="expired">Trial expired a while ago</option>
+          <option value="influencer">Came from Ali Abdaal's community link</option>
+          <option value="customer">Already a customer — exploring an upgrade</option>
         </select></div>
-      <div><label>Product focus</label>
-        <select id="b_product">
-          <option value="community">community</option><option value="courses">courses</option>
-          <option value="events">events</option><option value="payments">payments</option>
-          <option value="email_marketing">email_marketing</option><option value="branded_app">branded_app</option>
-          <option value="ai_agents">ai_agents</option>
+      <div><label>Clara should lead with</label>
+        <select id="b_lead">
+          <option value="">Let Clara pick for this situation</option>
+          <option value="community">Building their community</option>
+          <option value="courses">Selling courses</option>
+          <option value="events">Running events &amp; live sessions</option>
+          <option value="payments">Getting paid — paywalls &amp; subscriptions</option>
+          <option value="email_marketing">Email marketing from their member base</option>
+          <option value="branded_app">Their own branded mobile app</option>
+          <option value="ai_agents">AI agents running the busywork</option>
         </select></div>
-      <div><label>Plan</label>
-        <select id="b_plan">
-          <option value="Professional">Professional</option><option value="Business" selected>Business</option>
-          <option value="Scale">Scale</option><option value="Circle Plus">Circle Plus</option>
+      <div><label>Offer on the table</label>
+        <select id="b_offer">
+          <option value="none">No offer</option>
+          <option value="creator">20% off your first year — code CREATOR20</option>
+          <option value="annual">20% off annual Business — code ANNUAL20</option>
+          <option value="back">First month on us — code CIRCLEBACK</option>
         </select></div>
-      <div><label>Campaign</label><input id="b_campaign" placeholder="ab10pilot"></div>
-      <div><label>Promo offer</label><input id="b_promo" placeholder="20% off annual Business"></div>
-      <div><label>Promo code</label><input id="b_code" placeholder="CREATOR20"></div>
-      <div><label>Influencer</label><input id="b_influencer" placeholder="Ali Abdaal"></div>
-      <div><label>Trial stage</label><input id="b_stage" placeholder="almost_done"></div>
+      <div><label>How Clara opens</label>
+        <select id="b_opener">
+          <option value="auto">Starts the conversation herself</option>
+          <option value="wait">Panel open — waits for a tap</option>
+        </select></div>
+      <div><label>Seed a first question (optional)</label>
+        <select id="b_q">
+          <option value="">No seeded question</option>
+          <option value="What do I get in the free trial?">What do I get in the free trial?</option>
+          <option value="Which plan is right for me?">Which plan is right for me?</option>
+          <option value="How do I redeem my code?">How do I redeem my code?</option>
+          <option value="Can I migrate my existing community?">Can I migrate my existing community?</option>
+          <option value="Walk me through getting started.">Walk me through getting started.</option>
+        </select></div>
     </div>
     <div class="mk">
-      <button class="btn btn-primary" onclick="buildLink()">Build link</button>
+      <button class="btn btn-primary" onclick="buildLink()">Create link</button>
+      <button class="btn" style="border:1px solid var(--line);background:#fff" onclick="openLink()">Open it</button>
       <button class="btn" style="border:1px solid var(--line);background:#fff" onclick="copyLink()">Copy</button>
     </div>
     <a id="builtLink" target="_blank" rel="noopener"></a>
@@ -429,23 +447,51 @@ function resetSession(){
   location.href = location.pathname;
 }
 
-/* ================= demo link builder ================= */
+/* ================= natural-language link builder ================= */
+const SITUATIONS = {
+  campaign:   {type:'campaign',            goal:'start_trial',  campaign:'ab10pilot',     product:'community', plan:'Business'},
+  near:       {type:'trial_near_complete', goal:'finish_trial', campaign:'trial_rescue',  product:'community', plan:'Business',  stage:'almost_done'},
+  active:     {type:'trial_active',        goal:'finish_trial', campaign:'trial_nudge',   product:'community', plan:'Professional', stage:'day_3'},
+  expired:    {type:'trial_expired',       goal:'restart_trial',campaign:'winback_q4',    product:'ai_agents', plan:'Scale',     stage:'built_space'},
+  influencer: {type:'influencer',          goal:'redeem_promo', campaign:'creator20',     product:'courses',   plan:'Professional', influencer:'Ali Abdaal', src:'youtube', med:'influencer'},
+  customer:   {type:'customer',            goal:'upgrade_plan', campaign:'scale_upgrade', product:'ai_agents', plan:'Scale'}
+};
+const OFFERS = {
+  none:    null,
+  creator: {promo:'20% off your first year', code:'CREATOR20'},
+  annual:  {promo:'20% off annual Business', code:'ANNUAL20'},
+  back:    {promo:'First month on us',       code:'CIRCLEBACK'}
+};
 function builderParams(){
   const qp = new URLSearchParams();
-  const take = (id,key)=>{const v=document.getElementById(id).value.trim(); if(v)qp.set(key,v)};
-  take('b_visitor','visitor'); take('b_campaign','campaign'); take('b_promo','promo');
-  take('b_code','code'); take('b_influencer','influencer'); take('b_stage','stage');
-  qp.set('type',document.getElementById('b_type').value);
-  qp.set('product',document.getElementById('b_product').value);
-  qp.set('plan',document.getElementById('b_plan').value);
-  qp.set('utm_source','email'); qp.set('utm_medium','email');
-  const c=document.getElementById('b_campaign').value.trim(); if(c)qp.set('utm_campaign',c);
+  const name = document.getElementById('b_visitor').value.trim();
+  if (name) qp.set('visitor', name);
+  const s = SITUATIONS[document.getElementById('b_situation').value];
+  qp.set('type', s.type); qp.set('goal', s.goal); qp.set('campaign', s.campaign);
+  if (s.stage) qp.set('stage', s.stage);
+  if (s.influencer) qp.set('influencer', s.influencer);
+  const lead = document.getElementById('b_lead').value;
+  const prod = lead || s.product;
+  qp.set('product', prod);
+  qp.set('plan', lead ? (PLAN_FOR[lead] || s.plan) : s.plan);
+  const offer = OFFERS[document.getElementById('b_offer').value];
+  if (offer){ qp.set('promo', offer.promo); qp.set('code', offer.code); }
+  if (document.getElementById('b_opener').value === 'wait') qp.set('autostart','0');
+  const seed = document.getElementById('b_q').value;
+  if (seed) qp.set('q', seed);
+  qp.set('utm_source', s.src || 'email'); qp.set('utm_medium', s.med || 'email'); qp.set('utm_campaign', s.campaign);
   qp.set('demo','true');
   return qp.toString();
 }
 function buildLink(){
   const url = location.origin + location.pathname + '?' + builderParams();
   const a = document.getElementById('builtLink'); a.textContent = url; a.href = url;
+  return url;
+}
+function openLink(){
+  const a = document.getElementById('builtLink');
+  const url = a.textContent || buildLink();
+  window.open(url, '_blank', 'noopener');
 }
 function copyLink(){
   const a = document.getElementById('builtLink');
