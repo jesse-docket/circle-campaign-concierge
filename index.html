@@ -20,9 +20,11 @@
 
   /* ----- nav ----- */
   .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-    padding:14px 28px;background:rgba(10,10,20,.72);backdrop-filter:blur(14px)}
-  .logo{color:#fff;font-weight:800;font-size:20px;letter-spacing:-.02em}
-  .logo span{opacity:.55;font-weight:600;font-size:13px;margin-left:10px;letter-spacing:0}
+    padding:14px 28px;background:rgba(10,10,20,.78);backdrop-filter:blur(14px)}
+  .logo{display:flex;align-items:center}
+  .logo svg{height:24px;width:auto;display:block}
+  .nav-right{display:flex;gap:18px;align-items:center}
+  .nav-link{color:rgba(255,255,255,.85);font-size:14px;font-weight:500}
   .nav .cta{background:#fff;color:var(--ink);font-weight:600;font-size:14px;padding:9px 18px;border-radius:var(--pill)}
 
   /* ----- hero ----- */
@@ -59,17 +61,33 @@
   .card .flag{display:none;position:absolute;top:-12px;left:22px;background:var(--brand);color:#fff;
     font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:var(--pill);letter-spacing:.04em}
   .card.recommended .flag{display:inline-block}
-  .card .icon{font-size:26px;margin-bottom:14px}
+  .card .icon{height:40px;margin-bottom:14px;display:flex;align-items:center}
+  .card .icon img{height:36px;width:36px;object-fit:contain}
+  .app-tile{height:36px;width:36px;border-radius:9px;background:linear-gradient(135deg,var(--brand-deep),var(--brand));
+    display:flex;align-items:center;justify-content:center}
+  .app-tile svg{height:11px;width:auto}
   .card h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
   .card p{color:var(--muted);font-size:14.2px;line-height:1.55;margin-top:8px}
   .card .plan{margin-top:16px;font-size:13px;font-weight:600;color:var(--brand-deep);
     background:rgba(80,108,240,.08);display:inline-block;padding:5px 12px;border-radius:var(--pill)}
   .card .go{margin-top:16px;display:block;font-weight:600;font-size:14px;color:var(--brand);cursor:pointer}
 
+  /* ----- FAQ ----- */
+  .faq-wrap{max-width:760px;margin:0 auto}
+  .faq-item{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:#fff;overflow:hidden}
+  .faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    gap:14px;padding:18px 20px;font-weight:600;font-size:15.5px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary .tgl{color:var(--brand);font-size:20px;line-height:1;flex:0 0 auto}
+  .faq-item[open] summary .tgl{transform:rotate(45deg)}
+  .faq-body{padding:0 20px 16px;color:var(--muted);font-size:14.5px;line-height:1.6}
+  .ask-clara{margin-top:10px;display:inline-block;font-weight:600;font-size:13.5px;color:var(--brand);cursor:pointer;
+    background:rgba(80,108,240,.08);padding:7px 14px;border-radius:var(--pill);border:none}
+
   /* ----- mock checkout stepper ----- */
   .overlay{display:none;position:fixed;inset:0;background:rgba(8,8,18,.6);z-index:90;align-items:center;justify-content:center;padding:20px}
   .overlay.open{display:flex}
-  .sheet{background:#fff;border-radius:22px;max-width:480px;width:100%;padding:34px 32px;position:relative}
+  .sheet{background:#fff;border-radius:22px;max-width:480px;width:100%;padding:34px 32px;position:relative;max-height:90vh;overflow:auto}
   .sheet .close{position:absolute;top:16px;right:20px;font-size:22px;color:var(--muted);cursor:pointer;background:none;border:none}
   .sheet .demo-tag{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b4552d;
     background:rgba(180,85,45,.1);padding:4px 10px;border-radius:var(--pill);display:inline-block;margin-bottom:14px}
@@ -80,7 +98,6 @@
   .step .num{flex:0 0 26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;
     font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
   .step b{font-size:14.5px}
-  .step p{font-size:13.2px;color:var(--muted);margin-top:3px;line-height:1.45}
   .sheet .btn{width:100%;margin-top:22px;text-align:center}
   .sheet .fine{margin-top:12px;font-size:12px;color:var(--muted);text-align:center}
 
@@ -104,8 +121,14 @@
 <body>
 
 <nav class="nav">
-  <div class="logo">Circle <span>Campaign Concierge · demo by Docket</span></div>
-  <a class="cta" href="#products">Explore products</a>
+  <a class="logo" href="#" aria-label="Circle">
+    <svg viewBox="0 0 200 58" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"><path d="M26.5583 57.3672C22.8697 57.3672 19.4023 56.6783 16.1563 55.3006C12.9103 53.8737 10.0823 51.9056 7.6724 49.3962C5.26248 46.8376 3.36897 43.8854 1.99187 40.5395C0.663958 37.1937 0 33.5772 0 29.6901C0 25.803 0.663958 22.2111 1.99187 18.9145C3.36897 15.5686 5.26248 12.641 7.6724 10.1316C10.0823 7.62225 12.9103 5.67871 16.1563 4.301C19.4023 2.8741 22.8697 2.16064 26.5583 2.16064C31.2306 2.16064 35.4603 3.12012 39.2473 5.03906C43.0835 6.958 46.2311 9.6396 48.6902 13.0839C51.1493 16.5281 52.674 20.5136 53.2642 25.0404H41.3867C40.9933 22.4818 40.0834 20.243 38.6571 18.3241C37.28 16.4051 35.5586 14.9044 33.493 13.8219C31.4765 12.7394 29.2141 12.1982 26.7059 12.1982C24.3943 12.1982 22.3041 12.6164 20.4351 13.4529C18.6154 14.2894 17.017 15.4948 15.6399 17.0694C14.312 18.6439 13.2792 20.5136 12.5414 22.6786C11.8529 24.7943 11.5086 27.1315 11.5086 29.6901C11.5086 32.2979 11.8529 34.6843 12.5414 36.8492C13.2792 38.965 14.312 40.8101 15.6399 42.3847C17.017 43.9592 18.6154 45.1893 20.4351 46.0749C22.3041 46.9114 24.3943 47.3296 26.7059 47.3296C29.2141 47.3296 31.5011 46.7884 33.5668 45.7059C35.6324 44.5742 37.3292 43.0489 38.6571 41.13C40.0342 39.1618 40.9441 36.923 41.3867 34.4137H53.2642C52.6248 38.9896 51.0756 42.9997 48.6165 46.444C46.1574 49.8882 43.0343 52.5698 39.2473 54.4888C35.4603 56.4077 31.2306 57.3672 26.5583 57.3672Z" fill="white"></path><path d="M68.9876 56.2601H58.7332V16.8479H68.9876V56.2601Z" fill="white"></path><path d="M86.892 37.1445V56.2601H76.6376V16.8479H86.0805V24.4499C87.556 21.9405 89.6954 19.9724 92.4988 18.5455C95.3022 17.1186 98.2777 16.4051 101.425 16.4051V27.0331C98.5728 26.8363 96.0399 26.9839 93.8267 27.4759C91.6627 27.9188 89.9659 28.9274 88.7364 30.502C87.5068 32.0273 86.892 34.2414 86.892 37.1445Z" fill="white"></path><path d="M121.587 56.9981C117.8 56.9981 114.456 56.1371 111.554 54.415C108.702 52.6928 106.464 50.2818 104.841 47.182C103.218 44.0822 102.406 40.5395 102.406 36.554C102.406 32.6177 103.218 29.1243 104.841 26.0736C106.513 22.9738 108.8 20.5382 111.702 18.7669C114.603 16.9956 117.899 16.1099 121.587 16.1099C124.981 16.1099 128.055 16.8479 130.809 18.3241C133.563 19.751 135.801 21.7929 137.522 24.4499C139.244 27.0577 140.301 30.1329 140.695 33.6756H129.924C129.678 31.0678 128.792 29.0013 127.268 27.4759C125.792 25.9506 123.899 25.188 121.587 25.188C119.817 25.188 118.267 25.6554 116.94 26.5903C115.661 27.5251 114.653 28.829 113.915 30.502C113.226 32.1749 112.882 34.1922 112.882 36.554C112.882 38.8666 113.226 40.8839 113.915 42.6061C114.653 44.3282 115.661 45.6567 116.94 46.5916C118.267 47.4772 119.817 47.9201 121.587 47.9201C123.948 47.9201 125.842 47.182 127.268 45.7059C128.743 44.1806 129.629 42.0894 129.924 39.4324H140.695C140.35 43.0243 139.317 46.1487 137.596 48.8057C135.875 51.4135 133.661 53.4309 130.956 54.8578C128.251 56.2847 125.128 56.9981 121.587 56.9981Z" fill="white"></path><path d="M156.131 56.2601H145.803V3.26773L156.131 3.26773V56.2601Z" fill="white"></path><path d="M180.967 56.9243C177.032 56.9243 173.565 56.0879 170.565 54.415C167.614 52.6928 165.327 50.2818 163.704 47.182C162.081 44.0822 161.269 40.4903 161.269 36.4064C161.269 32.4701 162.105 28.9767 163.777 25.926C165.45 22.8754 167.761 20.489 170.712 18.7669C173.663 16.9956 177.032 16.1099 180.819 16.1099C183.917 16.1099 186.721 16.7003 189.229 17.8812C191.787 19.0129 193.926 20.6366 195.647 22.7524C197.369 24.8681 198.598 27.3283 199.336 30.1329C200.074 32.8883 200.197 35.8652 199.705 39.0634H167.319V32.5685H188.86C188.762 29.8131 187.95 27.6482 186.426 26.0736C184.95 24.4499 183.008 23.6381 180.598 23.6381C178.68 23.6381 177.057 24.1301 175.729 25.1142C174.401 26.0982 173.368 27.5497 172.63 29.4687C171.942 31.3384 171.597 33.651 171.597 36.4064C171.597 39.1126 171.942 41.4006 172.63 43.2703C173.319 45.1401 174.352 46.567 175.729 47.551C177.106 48.5351 178.778 49.0272 180.745 49.0272C183.008 49.0272 184.877 48.4859 186.352 47.4034C187.827 46.3209 188.86 44.8202 189.45 42.9013H199.631C198.5 47.3296 196.311 50.7739 193.065 53.2341C189.819 55.6943 185.786 56.9243 180.967 56.9243Z" fill="white"></path><path d="M70.5386 7.01152C70.5386 9.02888 69.8992 10.7018 68.6205 12.0303C67.3418 13.3096 65.6942 13.9492 63.6777 13.9492C61.6613 13.9492 59.9891 13.3096 58.6611 12.0303C57.3824 10.7018 56.743 9.02888 56.743 7.01152C56.743 4.94497 57.3824 3.27205 58.6611 1.99275C59.9891 0.664252 61.6613 0 63.6777 0C65.6942 0 67.3418 0.664252 68.6205 1.99275C69.8992 3.27205 70.5386 4.94497 70.5386 7.01152Z" fill="white"></path></svg>
+  </a>
+  <div class="nav-right">
+    <a class="nav-link" href="#products">Products</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+    <a class="cta" href="#" onclick="askClara('I want to start my free trial — walk me through it.');return false;">Start free trial</a>
+  </div>
 </nav>
 
 <header class="hero">
@@ -113,7 +136,7 @@
   <h1 id="heroTitle">A new era for your digital business</h1>
   <p class="sub" id="heroSub">Build a home for your community, events, and courses — all under your own brand.</p>
   <div class="actions">
-    <button class="btn btn-primary" id="heroCta" onclick="openStepper()">Start free trial</button>
+    <button class="btn btn-primary" id="heroCta" onclick="heroAsk()">Start free trial</button>
     <a class="btn btn-ghost" href="#products">See what fits you</a>
   </div>
   <div class="offer-banner" id="offerBanner"></div>
@@ -128,6 +151,15 @@
   <div class="grid" id="productGrid"></div>
 </section>
 
+<section class="section" id="faq" style="padding-top:20px">
+  <div class="section-head">
+    <div class="kicker">FAQ</div>
+    <h2>Questions, answered</h2>
+    <p>Short answers here — or hand any of them to Clara and keep the conversation going.</p>
+  </div>
+  <div class="faq-wrap" id="faqWrap"></div>
+</section>
+
 <!-- mock subscribe stepper -->
 <div class="overlay" id="stepperOverlay" role="dialog" aria-modal="true">
   <div class="sheet">
@@ -135,7 +167,7 @@
     <span class="demo-tag">Illustrative preview</span>
     <h3 id="stepperTitle">How you'd proceed</h3>
     <div class="steps" id="stepperSteps"></div>
-    <button class="btn btn-primary" onclick="askClara()">Ask Clara to walk me through it</button>
+    <button class="btn btn-primary" onclick="stepperAsk()">Ask Clara to walk me through it</button>
     <p class="fine">This is a demo preview of the flow — the real trial and checkout happen on circle.so.</p>
   </div>
 </div>
@@ -144,8 +176,8 @@
 
 <footer>
   <div class="foot-row">
-    <div><strong style="color:var(--ink)">Circle Campaign Concierge</strong> — personalized landing-page concept</div>
-    <div>Example built by Docket for evaluation with the Circle team</div>
+    <div><strong style="color:var(--ink)">Circle × Docket</strong> — personalized campaign landing-page concept</div>
+    <div>Evaluation example built by Docket for the Circle team</div>
   </div>
   <details class="demo-tools">
     <summary>Demo link builder — mint a personalized link for anyone</summary>
@@ -182,7 +214,7 @@
     </div>
     <a id="builtLink" target="_blank" rel="noopener"></a>
   </details>
-  <p class="disclaimer">Demo environment. Plans and pricing shown reflect circle.so's public pricing (Professional $89/mo · Business $199/mo · Scale $419/mo · Circle Plus custom; 14-day free trial, no credit card). The "proceed" flow is illustrative only — no real checkout occurs on this page. Not an official Circle property.</p>
+  <p class="disclaimer">Demo environment built by Docket with Circle's permission, using Circle's public branding. Plans and pricing reflect circle.so's public pricing (Professional $89/mo · Business $199/mo · Scale $419/mo · Circle Plus custom; 14-day free trial, no credit card). The "proceed" flow is illustrative only — no real checkout occurs on this page.</p>
 </footer>
 
 <!-- ============ Docket widget (agent: Clara - Campaign Concierge) ============ -->
@@ -229,13 +261,13 @@ const P = new URLSearchParams(location.search);
 const g = k => (P.get(k) || '').trim();
 
 const PRODUCTS = {
-  community:       {icon:'💬', name:'Community',        pitch:'Discussions, spaces, member profiles and DMs — a home your audience actually visits.', steps:['Create your community & URL','Set up your first three spaces','Brand it — logo, colors, cover','Invite your first 10–25 members','Go live & share the link']},
-  courses:         {icon:'🎓', name:'Courses',          pitch:'Turn what you know into structured lessons your members finish — free or paid.', steps:['Create a course space','Outline sections & lessons','Set the access model','Attach a paywall if paid','Publish & announce']},
-  events:          {icon:'📅', name:'Events & Live',    pitch:'Live streams and interactive rooms, RSVPs included — no bolt-on video tools.', steps:['Create an event space','Schedule a recurring anchor event','Pick live stream or room format','Announce — members RSVP in place','Run it & post the recap']},
-  payments:        {icon:'💳', name:'Payments',         pitch:'Branded checkout, paywalls, subscriptions, coupons and affiliates — get paid in place.', steps:['Connect your payout account','Create your first paywall','Brand the checkout page','Set up offers & coupons','Run a test purchase']},
-  email_marketing: {icon:'✉️', name:'Email Marketing',  pitch:'Broadcasts, automations and segmentation on your member base — no CSV shuffle.', steps:['Your audience syncs automatically','Send the first broadcast','Set the welcome automation','Segment by activity & space','Scale with the Email Hub']},
-  branded_app:     {icon:'📱', name:'Branded App',      pitch:'Your own iOS & Android app — your icon on their home screen, your push notifications.', steps:['Confirm the Plus fit','Circle builds & submits the apps','Customize your app screens','~90-day onboarding with an expert','Book the Plus conversation']},
-  ai_agents:       {icon:'🤖', name:'AI Agents',        pitch:'Agents with 50+ skills working your community — onboarding, recaps, triage — on autopilot.', steps:['Name the repetitive work','Pick your first agent & skill','Wire a workflow around it','Measure with activity scoring','Expand — workflows are unlimited']}
+  community:       {img:'assets/community.png', name:'Community',        pitch:'Discussions, spaces, member profiles and DMs — a home your audience actually visits.', steps:['Create your community & URL','Set up your first three spaces','Brand it — logo, colors, cover','Invite your first 10–25 members','Go live & share the link']},
+  courses:         {img:'assets/courses.png', name:'Courses',          pitch:'Turn what you know into structured lessons your members finish — free or paid.', steps:['Create a course space','Outline sections & lessons','Set the access model','Attach a paywall if paid','Publish & announce']},
+  events:          {img:'assets/events.png', name:'Events & Live',    pitch:'Live streams and interactive rooms, RSVPs included — no bolt-on video tools.', steps:['Create an event space','Schedule a recurring anchor event','Pick live stream or room format','Announce — members RSVP in place','Run it & post the recap']},
+  payments:        {img:'assets/payments.png', name:'Payments',         pitch:'Branded checkout, paywalls, subscriptions, coupons and affiliates — get paid in place.', steps:['Connect your payout account','Create your first paywall','Brand the checkout page','Set up offers & coupons','Run a test purchase']},
+  email_marketing: {img:'assets/email_marketing.png', name:'Email Marketing',  pitch:'Broadcasts, automations and segmentation on your member base — no CSV shuffle.', steps:['Your audience syncs automatically','Send the first broadcast','Set the welcome automation','Segment by activity & space','Scale with the Email Hub']},
+  branded_app:     {img:'', name:'Branded App',      pitch:'Your own iOS & Android app — your icon on their home screen, your push notifications.', steps:['Confirm the Plus fit','Circle builds & submits the apps','Customize your app screens','~90-day onboarding with an expert','Book the Plus conversation']},
+  ai_agents:       {img:'assets/ai_agents.png', name:'AI Agents',        pitch:'Agents with 50+ skills working your community — onboarding, recaps, triage — on autopilot.', steps:['Name the repetitive work','Pick your first agent & skill','Wire a workflow around it','Measure with activity scoring','Expand — workflows are unlimited']}
 };
 const PLAN_FOR = {community:'Professional', courses:'Professional', events:'Professional',
   payments:'Business', email_marketing:'Business', branded_app:'Circle Plus', ai_agents:'Scale'};
@@ -244,18 +276,18 @@ const PLAN_PRICE = {Professional:'$89/mo', Business:'$199/mo', Scale:'$419/mo', 
 const visitor = g('visitor'), vtype = g('type'), product = g('product').toLowerCase(),
       plan = g('plan'), promo = g('promo'), code = g('code'),
       influencer = g('influencer'), stage = g('stage'), campaign = g('campaign'),
-      goal = g('goal'), demo = g('demo');
+      goal = g('goal'), demo = g('demo'), q = g('q');
 const personalized = !!(visitor || vtype || product || promo || campaign || influencer);
 
 /* hero copy per visitor type */
 const H = {
-  campaign:            {chip:'Picked out for you', h:n=>`${n ? n+', y' : 'Y'}our next chapter starts here`, sub:'You clicked for a reason. Let’s turn it into a community, courses, and revenue — under your own brand.', cta:'Start free trial'},
-  promo:               {chip:'Your offer is live on this page', h:n=>`${n ? n+', y' : 'Y'}our offer is waiting`, sub:'Redeem it on the plan that actually fits what you’re building — Clara will point you right.', cta:'Claim my offer'},
-  influencer:          {chip:'Welcome from a community we love', h:n=>`${n ? 'Welcome, '+n : 'Welcome'} — build yours now`, sub:'You’ve seen what a real community feels like. Here’s where you build your own.', cta:'Start free trial'},
-  trial_active:        {chip:'Your trial is live', h:n=>`Keep going${n ? ', '+n : ''} — you’re close`, sub:'The next milestone is the one that makes communities stick. Clara knows exactly where you left off.', cta:'Continue my trial'},
-  trial_near_complete: {chip:'One step from done', h:n=>`${n ? n+', y' : 'Y'}ou were almost there`, sub:'You did the hard part. Finish the last step with Clara and go live today.', cta:'Finish my setup'},
-  trial_expired:       {chip:'A lot has shipped since you left', h:n=>`Welcome back${n ? ', '+n : ''}`, sub:'AI agents, unlimited workflows, and your return offer — picking back up takes minutes.', cta:'Pick up where I left off'},
-  customer:            {chip:'For your next stage', h:n=>`${n ? n+', r' : 'R'}eady for what’s next?`, sub:'You’ve outgrown your plan in the best way. See what the next tier unlocks for you.', cta:'See my upgrade'}
+  campaign:            {chip:'Picked out for you', h:n=>`${n ? n+', y' : 'Y'}our next chapter starts here`, sub:'You clicked for a reason. Let’s turn it into a community, courses, and revenue — under your own brand.', cta:'Start free trial', ask:'I want to get started — walk me through the steps.'},
+  promo:               {chip:'Your offer is live on this page', h:n=>`${n ? n+', y' : 'Y'}our offer is waiting`, sub:'Redeem it on the plan that actually fits what you’re building — Clara will point you right.', cta:'Claim my offer', ask:'I want to redeem my offer — what are the steps?'},
+  influencer:          {chip:'Welcome from a community we love', h:n=>`${n ? 'Welcome, '+n : 'Welcome'} — build yours now`, sub:'You’ve seen what a real community feels like. Here’s where you build your own.', cta:'Start free trial', ask:'I came from a creator community — help me build my own.'},
+  trial_active:        {chip:'Your trial is live', h:n=>`Keep going${n ? ', '+n : ''} — you’re close`, sub:'The next milestone is the one that makes communities stick. Clara knows exactly where you left off.', cta:'Continue my trial', ask:'What should I do next in my trial?'},
+  trial_near_complete: {chip:'One step from done', h:n=>`${n ? n+', y' : 'Y'}ou were almost there`, sub:'You did the hard part. Finish the last step with Clara and go live today.', cta:'Finish my setup', ask:'Help me finish the last step of my trial.'},
+  trial_expired:       {chip:'A lot has shipped since you left', h:n=>`Welcome back${n ? ', '+n : ''}`, sub:'AI agents, unlimited workflows, and your return offer — picking back up takes minutes.', cta:'Pick up where I left off', ask:'My trial expired — how do I pick up where I left off?'},
+  customer:            {chip:'For your next stage', h:n=>`${n ? n+', r' : 'R'}eady for what’s next?`, sub:'You’ve outgrown your plan in the best way. See what the next tier unlocks for you.', cta:'See my upgrade', ask:'What would upgrading my plan unlock for me?'}
 };
 const hv = H[vtype] || H.campaign;
 
@@ -278,17 +310,39 @@ function esc(s){const d=document.createElement('div');d.textContent=s;return d.i
 const order = Object.keys(PRODUCTS);
 if (product && PRODUCTS[product]) order.splice(order.indexOf(product),1), order.unshift(product);
 const grid = document.getElementById('productGrid');
+const APP_TILE_SVG = `<div class="app-tile"><svg viewBox="0 0 71 58" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.5583 57.3672C22.8697 57.3672 19.4023 56.6783 16.1563 55.3006C12.9103 53.8737 10.0823 51.9056 7.6724 49.3962C5.26248 46.8376 3.36897 43.8854 1.99187 40.5395C0.663958 37.1937 0 33.5772 0 29.6901C0 25.803 0.663958 22.2111 1.99187 18.9145C3.36897 15.5686 5.26248 12.641 7.6724 10.1316C10.0823 7.62225 12.9103 5.67871 16.1563 4.301C19.4023 2.8741 22.8697 2.16064 26.5583 2.16064C31.2306 2.16064 35.4603 3.12012 39.2473 5.03906C43.0835 6.958 46.2311 9.6396 48.6902 13.0839C51.1493 16.5281 52.674 20.5136 53.2642 25.0404H41.3867C40.9933 22.4818 40.0834 20.243 38.6571 18.3241C37.28 16.4051 35.5586 14.9044 33.493 13.8219C31.4765 12.7394 29.2141 12.1982 26.7059 12.1982C24.3943 12.1982 22.3041 12.6164 20.4351 13.4529C18.6154 14.2894 17.017 15.4948 15.6399 17.0694C14.312 18.6439 13.2792 20.5136 12.5414 22.6786C11.8529 24.7943 11.5086 27.1315 11.5086 29.6901C11.5086 32.2979 11.8529 34.6843 12.5414 36.8492C13.2792 38.965 14.312 40.8101 15.6399 42.3847C17.017 43.9592 18.6154 45.1893 20.4351 46.0749C22.3041 46.9114 24.3943 47.3296 26.7059 47.3296C29.2141 47.3296 31.5011 46.7884 33.5668 45.7059C35.6324 44.5742 37.3292 43.0489 38.6571 41.13C40.0342 39.1618 40.9441 36.923 41.3867 34.4137H53.2642C52.6248 38.9896 51.0756 42.9997 48.6165 46.444C46.1574 49.8882 43.0343 52.5698 39.2473 54.4888C35.4603 56.4077 31.2306 57.3672 26.5583 57.3672Z" fill="white"/><path d="M70.5386 7.01152C70.5386 9.02888 69.8992 10.7018 68.6205 12.0303C67.3418 13.3096 65.6942 13.9492 63.6777 13.9492C61.6613 13.9492 59.9891 13.3096 58.6611 12.0303C57.3824 10.7018 56.743 9.02888 56.743 7.01152C56.743 4.94497 57.3824 3.27205 58.6611 1.99275C59.9891 0.664252 61.6613 0 63.6777 0C65.6942 0 67.3418 0.664252 68.6205 1.99275C69.8992 3.27205 70.5386 4.94497 70.5386 7.01152Z" fill="white"/></svg></div>`;
 order.forEach(key=>{
   const p = PRODUCTS[key];
   const rec = personalized && product && key===product;
   const planName = (rec && plan) ? plan : PLAN_FOR[key];
+  const iconHtml = p.img ? `<img src="${p.img}" alt="${p.name}">` : APP_TILE_SVG;
   const el = document.createElement('div');
   el.className = 'card'+(rec?' recommended':'');
   el.innerHTML = `<span class="flag">Recommended for you</span>
-    <div class="icon">${p.icon}</div><h3>${p.name}</h3><p>${p.pitch}</p>
+    <div class="icon">${iconHtml}</div><h3>${p.name}</h3><p>${p.pitch}</p>
     <span class="plan">${planName} · ${PLAN_PRICE[planName]||''}</span>
     <span class="go" onclick="openStepper('${key}')">See how you'd proceed →</span>`;
   grid.appendChild(el);
+});
+
+/* ================= FAQ ================= */
+const FAQS = [
+  {q:'What exactly do I get in the 14-day free trial?', a:'Everything in the plan you pick — community, courses, events, payments and more — for 14 days, no credit card required. Your spaces and members carry over if you subscribe.'},
+  {q:'Which plan is right for me?', a:'Professional ($89/mo) covers launching community, courses and events. Business ($199/mo) adds automation, APIs and white-labeling. Scale ($419/mo) adds AI agents and unlimited workflows. Circle Plus (custom) adds your own branded mobile app.'},
+  {q:'How do I redeem a promo code from my email?', a:'Pick your plan, start checkout on circle.so, and enter the code at the plan step — the discounted price shows before you confirm anything. Clara can hold your hand through it.'},
+  {q:'Can I migrate my existing community from another platform?', a:'Yes — member import and space-by-space migration are standard practice, and Circle onboarding (60–90 days on Scale/Plus) exists for exactly this. Most teams run both platforms in parallel for a week.'},
+  {q:'What happens to my trial progress if I ran out of time?', a:'Your work isn’t gone. Pick up where you left off — Clara can see which step you reached and walk you through the rest in minutes.'},
+  {q:'Do I own my member data?', a:'Yes — your community, your members, your data, with export available. Custom SSO comes with Scale, and Circle Plus puts everything under your own app.'}
+];
+const faqWrap = document.getElementById('faqWrap');
+FAQS.forEach(f=>{
+  const d = document.createElement('details');
+  d.className = 'faq-item';
+  d.innerHTML = `<summary>${esc(f.q)}<span class="tgl">+</span></summary>
+    <div class="faq-body">${esc(f.a)}
+      <br><button class="ask-clara" onclick="askClara(${JSON.stringify(f.q).replace(/"/g,'&quot;')})">Ask Clara about this →</button>
+    </div>`;
+  faqWrap.appendChild(d);
 });
 
 /* mock stepper */
@@ -304,22 +358,14 @@ function openStepper(key){
     ? ['Talk to the Circle team (Plus is custom-priced)']
     : [`Choose ${planName} (${PLAN_PRICE[planName]}) — 14-day free trial, no card${promo ? ' · apply your offer' : ''}`];
   wrap.innerHTML = p.steps.concat(closing).map((s,i)=>
-    `<div class="step"><div class="num">${i+1}</div><div><b>${s}</b></div></div>`).join('');
+    `<div class="step"><div class="num">${i+1}</div><div><b>${esc(s)}</b></div></div>`).join('');
   document.getElementById('stepperOverlay').classList.add('open');
 }
 function closeStepper(){document.getElementById('stepperOverlay').classList.remove('open')}
 document.getElementById('stepperOverlay').addEventListener('click',e=>{if(e.target.id==='stepperOverlay')closeStepper()});
 
-/* ================= Docket context bridge ================= */
-async function waitForAISeller(method, ms=20000){
-  const t0 = Date.now();
-  while (Date.now()-t0 < ms){
-    if (window.AISeller && (typeof window.AISeller[method]==='function')) return true;
-    await new Promise(r=>setTimeout(r,150));
-  }
-  return false;
-}
-(async function(){
+/* ================= Docket context bridge + agent controls ================= */
+function baseContext(){
   const ctx = {};
   if (visitor) ctx.visitor_name = visitor;
   if (vtype) ctx.visitor_type = vtype;
@@ -335,41 +381,66 @@ async function waitForAISeller(method, ms=20000){
   if (g('utm_medium')) ctx.utm_medium = g('utm_medium');
   if (g('utm_campaign')) ctx.utm_campaign = g('utm_campaign');
   if (demo) ctx.demo_mode = demo;
-
+  return ctx;
+}
+async function waitForAISeller(method, ms=20000){
+  const t0 = Date.now();
+  while (Date.now()-t0 < ms){
+    if (window.AISeller && (typeof window.AISeller[method]==='function')) return true;
+    await new Promise(r=>setTimeout(r,150));
+  }
+  return false;
+}
+(async function(){
+  const ctx = baseContext();
+  if (q) ctx.visitor_question = q;
   if (Object.keys(ctx).length){
     if (await waitForAISeller('setContext')) { try{ await window.AISeller.setContext(ctx); }catch(e){} }
   } else {
     if (await waitForAISeller('resetContext')) { try{ await window.AISeller.resetContext(); }catch(e){} }
   }
-  /* best-effort: open the panel on arrival (co-browsing mode shows a side panel; these are no-ops if unsupported) */
-  try{ if (window.AISeller && typeof window.AISeller.open==='function') window.AISeller.open(); }catch(e){}
-  try{ if (typeof window.AISeller==='function') window.AISeller('open'); }catch(e){}
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+  /* ?autostart=1 on a link starts the conversation on arrival */
+  if (g('autostart')==='1' && await waitForAISeller('showAndConnect')) {
+    try{ await window.AISeller.showAndConnect(); }catch(e){}
+  }
 })();
 
-function askClara(){
+/* open the agent and seed it with a question */
+async function askClara(question){
   closeStepper();
-  try{ if (window.AISeller && typeof window.AISeller.open==='function') window.AISeller.open(); }catch(e){}
-  try{ if (typeof window.AISeller==='function') window.AISeller('open'); }catch(e){}
+  const ctx = baseContext();
+  if (question) ctx.visitor_question = question;
+  if (await waitForAISeller('setContext')) { try{ await window.AISeller.setContext(ctx); }catch(e){} }
+  if (await waitForAISeller('showAndConnect')) { try{ await window.AISeller.showAndConnect(); return; }catch(e){} }
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+}
+function heroAsk(){ askClara(hv.ask); }
+function stepperAsk(){
+  const p = PRODUCTS[currentPath];
+  const planName = (product===currentPath && plan) ? plan : PLAN_FOR[currentPath];
+  askClara(`Walk me through getting started with ${p.name} on the ${planName} plan, step by step.`);
 }
 function resetSession(){
   try{ if (window.AISeller && typeof window.AISeller.resetContext==='function') window.AISeller.resetContext(); }catch(e){}
+  try{ if (window.AISeller && typeof window.AISeller.hideAndDisconnect==='function') window.AISeller.hideAndDisconnect(); }catch(e){}
   try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
   location.href = location.pathname;
 }
 
 /* ================= demo link builder ================= */
 function builderParams(){
-  const q = new URLSearchParams();
-  const take = (id,key)=>{const v=document.getElementById(id).value.trim(); if(v)q.set(key,v)};
+  const qp = new URLSearchParams();
+  const take = (id,key)=>{const v=document.getElementById(id).value.trim(); if(v)qp.set(key,v)};
   take('b_visitor','visitor'); take('b_campaign','campaign'); take('b_promo','promo');
   take('b_code','code'); take('b_influencer','influencer'); take('b_stage','stage');
-  q.set('type',document.getElementById('b_type').value);
-  q.set('product',document.getElementById('b_product').value);
-  q.set('plan',document.getElementById('b_plan').value);
-  q.set('utm_source','email'); q.set('utm_medium','email');
-  const c=document.getElementById('b_campaign').value.trim(); if(c)q.set('utm_campaign',c);
-  q.set('demo','true');
-  return q.toString();
+  qp.set('type',document.getElementById('b_type').value);
+  qp.set('product',document.getElementById('b_product').value);
+  qp.set('plan',document.getElementById('b_plan').value);
+  qp.set('utm_source','email'); qp.set('utm_medium','email');
+  const c=document.getElementById('b_campaign').value.trim(); if(c)qp.set('utm_campaign',c);
+  qp.set('demo','true');
+  return qp.toString();
 }
 function buildLink(){
   const url = location.origin + location.pathname + '?' + builderParams();
