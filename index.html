@@ -399,12 +399,10 @@ async function waitForAISeller(method, ms=20000){
   } else {
     if (await waitForAISeller('resetContext')) { try{ await window.AISeller.resetContext(); }catch(e){} }
   }
-  /* co-browsing panel must already be open on arrival — retry show() while the widget boots */
-  if (await waitForAISeller('show')) {
-    for (let i=0;i<5;i++){ try{ window.AISeller.show(); }catch(e){} await new Promise(r=>setTimeout(r,1500)); }
-  }
-  /* ?autostart=1 on a link starts the conversation on arrival */
-  if (g('autostart')==='1' && await waitForAISeller('showAndConnect')) {
+  /* co-browsing panel opens on arrival and the conversation starts (opt out with ?autostart=0) */
+  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+  if (g('autostart')!=='0' && await waitForAISeller('showAndConnect')) {
+    await new Promise(r=>setTimeout(r,1200));
     try{ await window.AISeller.showAndConnect(); }catch(e){}
   }
 })();
