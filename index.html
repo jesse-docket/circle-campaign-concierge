@@ -261,13 +261,13 @@ const P = new URLSearchParams(location.search);
 const g = k => (P.get(k) || '').trim();
 
 const PRODUCTS = {
-  community:       {img:'assets/community.png', name:'Community',        pitch:'Discussions, spaces, member profiles and DMs — a home your audience actually visits.', steps:['Create your community & URL','Set up your first three spaces','Brand it — logo, colors, cover','Invite your first 10–25 members','Go live & share the link']},
-  courses:         {img:'assets/courses.png', name:'Courses',          pitch:'Turn what you know into structured lessons your members finish — free or paid.', steps:['Create a course space','Outline sections & lessons','Set the access model','Attach a paywall if paid','Publish & announce']},
-  events:          {img:'assets/events.png', name:'Events & Live',    pitch:'Live streams and interactive rooms, RSVPs included — no bolt-on video tools.', steps:['Create an event space','Schedule a recurring anchor event','Pick live stream or room format','Announce — members RSVP in place','Run it & post the recap']},
-  payments:        {img:'assets/payments.png', name:'Payments',         pitch:'Branded checkout, paywalls, subscriptions, coupons and affiliates — get paid in place.', steps:['Connect your payout account','Create your first paywall','Brand the checkout page','Set up offers & coupons','Run a test purchase']},
-  email_marketing: {img:'assets/email_marketing.png', name:'Email Marketing',  pitch:'Broadcasts, automations and segmentation on your member base — no CSV shuffle.', steps:['Your audience syncs automatically','Send the first broadcast','Set the welcome automation','Segment by activity & space','Scale with the Email Hub']},
-  branded_app:     {img:'', name:'Branded App',      pitch:'Your own iOS & Android app — your icon on their home screen, your push notifications.', steps:['Confirm the Plus fit','Circle builds & submits the apps','Customize your app screens','~90-day onboarding with an expert','Book the Plus conversation']},
-  ai_agents:       {img:'assets/ai_agents.png', name:'AI Agents',        pitch:'Agents with 50+ skills working your community — onboarding, recaps, triage — on autopilot.', steps:['Name the repetitive work','Pick your first agent & skill','Wire a workflow around it','Measure with activity scoring','Expand — workflows are unlimited']}
+  community:       {name:'Community',        pitch:'Discussions, spaces, member profiles and DMs — a home your audience actually visits.', steps:['Create your community & URL','Set up your first three spaces','Brand it — logo, colors, cover','Invite your first 10–25 members','Go live & share the link']},
+  courses:         {name:'Courses',          pitch:'Turn what you know into structured lessons your members finish — free or paid.', steps:['Create a course space','Outline sections & lessons','Set the access model','Attach a paywall if paid','Publish & announce']},
+  events:          {name:'Events & Live',    pitch:'Live streams and interactive rooms, RSVPs included — no bolt-on video tools.', steps:['Create an event space','Schedule a recurring anchor event','Pick live stream or room format','Announce — members RSVP in place','Run it & post the recap']},
+  payments:        {name:'Payments',         pitch:'Branded checkout, paywalls, subscriptions, coupons and affiliates — get paid in place.', steps:['Connect your payout account','Create your first paywall','Brand the checkout page','Set up offers & coupons','Run a test purchase']},
+  email_marketing: {name:'Email Marketing',  pitch:'Broadcasts, automations and segmentation on your member base — no CSV shuffle.', steps:['Your audience syncs automatically','Send the first broadcast','Set the welcome automation','Segment by activity & space','Scale with the Email Hub']},
+  branded_app:     {name:'Branded App',      pitch:'Your own iOS & Android app — your icon on their home screen, your push notifications.', steps:['Confirm the Plus fit','Circle builds & submits the apps','Customize your app screens','~90-day onboarding with an expert','Book the Plus conversation']},
+  ai_agents:       {name:'AI Agents',        pitch:'Agents with 50+ skills working your community — onboarding, recaps, triage — on autopilot.', steps:['Name the repetitive work','Pick your first agent & skill','Wire a workflow around it','Measure with activity scoring','Expand — workflows are unlimited']}
 };
 const PLAN_FOR = {community:'Professional', courses:'Professional', events:'Professional',
   payments:'Business', email_marketing:'Business', branded_app:'Circle Plus', ai_agents:'Scale'};
@@ -315,7 +315,7 @@ order.forEach(key=>{
   const p = PRODUCTS[key];
   const rec = personalized && product && key===product;
   const planName = (rec && plan) ? plan : PLAN_FOR[key];
-  const iconHtml = p.img ? `<img src="${p.img}" alt="${p.name}">` : APP_TILE_SVG;
+  const iconHtml = APP_TILE_SVG; /* official Circle logo tile on every card */
   const el = document.createElement('div');
   el.className = 'card'+(rec?' recommended':'');
   el.innerHTML = `<span class="flag">Recommended for you</span>
@@ -399,7 +399,10 @@ async function waitForAISeller(method, ms=20000){
   } else {
     if (await waitForAISeller('resetContext')) { try{ await window.AISeller.resetContext(); }catch(e){} }
   }
-  if (await waitForAISeller('show')) { try{ window.AISeller.show(); }catch(e){} }
+  /* co-browsing panel must already be open on arrival — retry show() while the widget boots */
+  if (await waitForAISeller('show')) {
+    for (let i=0;i<5;i++){ try{ window.AISeller.show(); }catch(e){} await new Promise(r=>setTimeout(r,1500)); }
+  }
   /* ?autostart=1 on a link starts the conversation on arrival */
   if (g('autostart')==='1' && await waitForAISeller('showAndConnect')) {
     try{ await window.AISeller.showAndConnect(); }catch(e){}
